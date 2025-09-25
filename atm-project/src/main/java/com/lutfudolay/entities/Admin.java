@@ -16,24 +16,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="user")
+@Table(name="admins")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor	
 public class Admin {
 	
-	 @Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-	 @Column(nullable = false, unique = true)
-	 private String username;
+	@Column(nullable = false, unique = true)
+	private String username;
 
-	 @Column(nullable = false)
-	 private String password;
+	@Column(nullable = false)
+	private String password;
 	    
-	 @OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
-	 private List<User> users;
-	 //CascadeType.ALL = Admin üzerinde yapılan işlem user'lara da otomatik uygulanır.
+	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+	private List<User> users;
+	//CascadeType.ALL = Admin üzerinde yapılan işlem user'lara da otomatik uygulanır.
 }
