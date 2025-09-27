@@ -12,5 +12,5 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 	Optional<User> findByUserName(String username);
 	
-	boolean existsByUserName(String username);
+	boolean existsByUserName(String username); //register'da kullanıcı adı zaten var mı ?
 }
