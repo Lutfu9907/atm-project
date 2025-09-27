@@ -81,10 +81,10 @@ public class AccountServiceImpl implements IAccountService{
 	     
 	     Account senderAccount = getAccountByUserId(fromUserId)
 	                .orElseThrow(() -> new RuntimeException("Hesap bulunamadı"));
-	        Transaction transferLog = new Transaction();
-	        transferLog.setAccount(senderAccount);
-	        transferLog.setAmount(amount);
-	        transferLog.setType(TransactionType.TRANSFER);
-	        transactionService.saveTransaction(transferLog);
+	     Transaction transferLog = new Transaction();
+	     transferLog.setAccount(senderAccount);
+	     transferLog.setAmount(amount);
+	     transferLog.setType(TransactionType.TRANSFER);
+	     transactionService.saveTransaction(transferLog);
 	}
 }
