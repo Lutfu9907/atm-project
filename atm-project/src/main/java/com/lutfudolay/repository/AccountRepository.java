@@ -1,0 +1,15 @@
+package com.lutfudolay.repository;
+
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.lutfudolay.entities.Account;
+import com.lutfudolay.entities.User;
+
+@Repository
+public interface AccountRepository extends JpaRepository<Account, Long>{
+	
+	Optional<Account> findByUser(User user);
+}
