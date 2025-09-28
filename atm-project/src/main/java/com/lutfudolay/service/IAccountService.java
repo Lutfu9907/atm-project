@@ -11,4 +11,5 @@ public interface IAccountService {
     void deposit(Long userId, Double amount);     // para yatırma
     void withdraw(Long userId, Double amount);    // para çekme
     void transfer(Long fromUserId, Long toUserId, Double amount); // havale
+	Double getBalance(Long userId);
 }

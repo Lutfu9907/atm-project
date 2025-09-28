@@ -2,6 +2,8 @@ package com.lutfudolay.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,7 @@ public class Admin {
 	private String password;
 	    
 	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL)
+	@JsonManagedReference 										//JSON’a dahil et der.
 	private List<User> users;
-	//CascadeType.ALL = Admin üzerinde yapılan işlem user'lara da otomatik uygulanır.
+																//CascadeType.ALL = Admin üzerinde yapılan işlem user'lara da otomatik uygulanır.
 }

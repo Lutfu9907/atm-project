@@ -1,5 +1,7 @@
 package com.lutfudolay.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,14 +31,15 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "username", nullable=false)
+	@Column(name = "username")
 	private String username;
 	
-	@Column(name="password", nullable=false)
+	@Column(name="password")
 	private String password;
 	
 	@ManyToOne
-	@JoinColumn(name="admin_id", nullable=false)
+	@JoinColumn(name="admin_id")
+	@JsonBackReference						// JSON’a dahil etmez.
 	private Admin admin;
 	
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

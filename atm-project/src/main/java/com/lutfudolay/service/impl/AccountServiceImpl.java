@@ -87,4 +87,10 @@ public class AccountServiceImpl implements IAccountService{
 	     transferLog.setType(TransactionType.TRANSFER);
 	     transactionService.saveTransaction(transferLog);
 	}
+
+	@Override
+	public Double getBalance(Long userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

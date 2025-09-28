@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lutfudolay.entities.Admin;
 import com.lutfudolay.entities.User;
+import com.lutfudolay.repository.AdminRepository;
 import com.lutfudolay.repository.UserRepository;
 import com.lutfudolay.service.IUserService;
 
@@ -15,11 +17,18 @@ public class UserServiceImpl implements IUserService{
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private AdminRepository adminRepository;
 
 	@Override
 	public User registerUser(User user) {
 		
-		return userRepository.save(user);
+		Admin defaultAdmin = adminRepository.findById(1L)
+		        .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+		    user.setAdmin(defaultAdmin);  // burada admin atanıyor
+		    return userRepository.save(user);
 	}
 
 	@Override
@@ -31,7 +40,7 @@ public class UserServiceImpl implements IUserService{
 	@Override
 	public Optional<User> getUserByUsername(String username) {
 		
-		return userRepository.findByUserName(username);
+		return userRepository.findByUsername(username);
 	}
 
 	@Override

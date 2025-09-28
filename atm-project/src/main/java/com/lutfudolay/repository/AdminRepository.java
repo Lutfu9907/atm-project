@@ -10,7 +10,7 @@ import com.lutfudolay.entities.Admin;
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long>{
 	
-	Optional<Admin> findByUserName(String username);
+	Optional<Admin> findByUsername(String username);
 	
-	boolean existsByUserName(String username);
+	boolean existsByUsername(String username);
 }

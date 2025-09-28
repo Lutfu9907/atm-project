@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lutfudolay.dto.TransactionDTO;
 import com.lutfudolay.entities.Account;
-import com.lutfudolay.entities.Transaction;
+import com.lutfudolay.mapper.TransactionMapper;
 import com.lutfudolay.service.IAccountService;
 import com.lutfudolay.service.ITransactionService;
 
@@ -25,9 +26,15 @@ public class TransactionController {
 	private IAccountService accountService;
 	
 	@GetMapping("/{userId}")
-    public ResponseEntity<List<Transaction>> getTransactions(@PathVariable Long userId) {
-        Account account = accountService.getAccountByUserId(userId)
-                .orElseThrow(() -> new RuntimeException("Hesap bulunamadı"));
-        return ResponseEntity.ok(transactionService.getTransactionsByAccount(account));
-    }
+	public ResponseEntity<List<TransactionDTO>> getTransactions(@PathVariable Long userId) {
+	    Account account = accountService.getAccountByUserId(userId)
+	            .orElseThrow(() -> new RuntimeException("Hesap bulunamadı"));
+
+	    List<TransactionDTO> dtoList = transactionService.getTransactionsByAccount(account)
+	            .stream()
+	            .map(TransactionMapper::toDTO)
+	            .toList();
+
+	    return ResponseEntity.ok(dtoList);
+	}
 }

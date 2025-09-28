@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.lutfudolay.entities.Account;
 import com.lutfudolay.entities.Transaction;
+import com.lutfudolay.enums.TransactionType;
 import com.lutfudolay.repository.TransactionRepository;
 import com.lutfudolay.service.ITransactionService;
 
@@ -26,6 +27,12 @@ public class TransactionServiceImpl implements ITransactionService{
 	public Transaction saveTransaction(Transaction transaction) {
 
 		return transactionRepository.save(transaction);
+	}
+
+	@Override
+	public void logTransaction(Long userId, Double amount, TransactionType deposit) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
