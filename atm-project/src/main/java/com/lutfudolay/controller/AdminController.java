@@ -4,12 +4,16 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lutfudolay.dto.AdminDTO;
+import com.lutfudolay.entities.Admin;
 import com.lutfudolay.mapper.AdminMapper;
 import com.lutfudolay.service.IAdminService;
 
@@ -19,6 +23,12 @@ public class AdminController {
 
     @Autowired
     private IAdminService adminService;
+    
+ // Yeni admin ekle
+    @PostMapping
+    public ResponseEntity<Admin> createAdmin(@RequestBody Admin admin) {
+        return ResponseEntity.ok(adminService.createAdmin(admin));
+    }
 
     // Tek bir admin getir
     @GetMapping("/{id}")
@@ -36,5 +46,12 @@ public class AdminController {
                 .map(AdminMapper::toDTO)
                 .toList();
         return ResponseEntity.ok(admins);
+    }
+    
+    // Admin sil
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAdmin(@PathVariable Long id) {
+        adminService.deleteAdmin(id);
+        return ResponseEntity.noContent().build();
     }
 }

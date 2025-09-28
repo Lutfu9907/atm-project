@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.lutfudolay.entities.Account;
 import com.lutfudolay.entities.Admin;
 import com.lutfudolay.entities.User;
+import com.lutfudolay.repository.AccountRepository;
 import com.lutfudolay.repository.AdminRepository;
 import com.lutfudolay.repository.UserRepository;
 import com.lutfudolay.service.IUserService;
@@ -20,16 +22,26 @@ public class UserServiceImpl implements IUserService{
 	
 	@Autowired
 	private AdminRepository adminRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
 
 	@Override
 	public User registerUser(User user) {
-		
-		Admin defaultAdmin = adminRepository.findById(1L)
-		        .orElseThrow(() -> new RuntimeException("Admin not found"));
+	    Admin defaultAdmin = adminRepository.findById(1L)
+	            .orElseThrow(() -> new RuntimeException("Admin not found"));
 
-		    user.setAdmin(defaultAdmin);  // burada admin atanıyor
-		    return userRepository.save(user);
+	    user.setAdmin(defaultAdmin);
+	    User savedUser = userRepository.save(user);
+
+	    Account account = new Account();
+	    account.setBalance(0.0);  //bakiye
+	    account.setUser(savedUser);
+	    accountRepository.save(account);
+
+	    return savedUser;
 	}
+
 
 	@Override
 	public Optional<User> getUserById(Long id) {
