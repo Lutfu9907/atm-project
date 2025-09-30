@@ -1,27 +1,35 @@
 package com.lutfudolay.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.lutfudolay.entities.User;
 import com.lutfudolay.repository.UserRepository;
-import com.lutfudolay.service.IUserDetailService;
 
-public class UserDetailsServiceImpl implements IUserDetailService{
+@Service
+public class UserDetailsServiceImpl implements UserDetailsService{
 
 	@Autowired
     private UserRepository userRepository;
 
-    @Override
+	@Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.lutfudolay.entities.User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Optional<User> userOpt = userRepository.findByUsername(username);
 
-        return User.builder()
+        User user = userOpt.orElseThrow(() ->
+            new UsernameNotFoundException("Kullanıcı bulunamadı: " + username)
+        );
+
+        return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
-                .password(user.getPassword())
-                .roles("USER")
+                .password(user.getPassword()) 
+                .roles("USER") 
                 .build();
     }
+
 }

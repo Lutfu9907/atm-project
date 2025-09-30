@@ -1,6 +1,6 @@
 package com.lutfudolay.jwt;
 
-import java.awt.RenderingHints.Key;
+import java.security.Key;
 import java.util.Date;
 
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtService {
 
-	private static final String SECRET_KEY = "mysecretkeymysecretkeymysecretkey"; 
+	private static final String SECRET_KEY = "mysecretkeymysecretkeymysecretkey123456"; 
     private static final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 saat
 
     private Key getSigningKey() {
