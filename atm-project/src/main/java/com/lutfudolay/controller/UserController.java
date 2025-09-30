@@ -1,6 +1,7 @@
 package com.lutfudolay.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lutfudolay.dto.UserDTO;
+import com.lutfudolay.dto.UserRegisterDTO;
 import com.lutfudolay.entities.User;
 import com.lutfudolay.mapper.UserMapper;
 import com.lutfudolay.service.IUserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,8 +32,10 @@ public class UserController {
 	public ResponseEntity<List<UserDTO>> getAllUsers() {
 	    List<UserDTO> users = userService.getAllUsers()
 	            .stream()
-	            .map(UserMapper::toDTO)
-	            .toList();
+	            .map(user -> new UserDTO(
+	            		user.getId(),
+	            		user.getUsername(),
+	            		user.getAccount() != null ? user.getAccount().getId() : null )).collect(Collectors.toList()); 
 
 	    return ResponseEntity.ok(users);
 	}
@@ -42,12 +48,22 @@ public class UserController {
 	}
 
 	@PostMapping("/register")
-	public ResponseEntity<UserDTO> registerUser(@RequestBody User user){
-	    User savedUser = userService.registerUser(user);
-	    return ResponseEntity.ok(UserMapper.toDTO(savedUser));
+	public ResponseEntity<UserDTO> registerUser(@Valid @RequestBody UserRegisterDTO userRegisterDTO){
+	    
+		User user = new User();
+		user.setUsername(userRegisterDTO.getUsername());
+		user.setPassword(userRegisterDTO.getPassword());
+		
+		User savedUser = userService.registerUser(user);
+		
+		UserDTO reponse = new UserDTO(
+				savedUser.getId(),
+				savedUser.getUsername(),
+				savedUser.getAccount() != null ? savedUser.getAccount().getId() : null );
+		
+		return ResponseEntity.ok(reponse);
 	}
 
-	// User sil
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

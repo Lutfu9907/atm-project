@@ -14,8 +14,12 @@ import lombok.NoArgsConstructor;
 public class TransactionDTO {
 
 	private Long id;
-    private TransactionType type;
-    private Double amount;
-    private LocalDateTime createdAt;
-    private Long accountId;
+    
+	private TransactionType type;
+    
+	private Double amount;
+    
+	private LocalDateTime createdAt;
+    
+	private Long accountId;
 }

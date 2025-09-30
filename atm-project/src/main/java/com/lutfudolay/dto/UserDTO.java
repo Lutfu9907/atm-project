@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
 
 	private Long id;
+	
     private String username;
+	
     private Long accountId;
 }

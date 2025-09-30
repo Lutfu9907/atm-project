@@ -48,11 +48,7 @@ public class AccountServiceImpl implements IAccountService{
         account.setBalance(account.getBalance() + amount);
         accountRepository.save(account);
         
-        Transaction transaction = new Transaction();
-        transaction.setAccount(account);
-        transaction.setAmount(amount);
-        transaction.setType(TransactionType.DEPOSIT);
-        transactionService.saveTransaction(transaction);
+        logTransaction(account, amount, TransactionType.DEPOSIT);
 	}
 
 	@Override
@@ -67,11 +63,7 @@ public class AccountServiceImpl implements IAccountService{
         account.setBalance(account.getBalance() - amount);
         accountRepository.save(account);
         
-        Transaction transaction = new Transaction();
-        transaction.setAccount(account);
-        transaction.setAmount(amount);
-        transaction.setType(TransactionType.WITHDRAW);
-        transactionService.saveTransaction(transaction);
+        logTransaction(account, amount, TransactionType.WITHDRAW);
 	}
 
 	@Override
@@ -81,16 +73,22 @@ public class AccountServiceImpl implements IAccountService{
 	     
 	     Account senderAccount = getAccountByUserId(fromUserId)
 	                .orElseThrow(() -> new RuntimeException("Hesap bulunamadı"));
-	     Transaction transferLog = new Transaction();
-	     transferLog.setAccount(senderAccount);
-	     transferLog.setAmount(amount);
-	     transferLog.setType(TransactionType.TRANSFER);
-	     transactionService.saveTransaction(transferLog);
+
+	     logTransaction(senderAccount, amount, TransactionType.TRANSFER);
 	}
 
 	@Override
 	public Double getBalance(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Account account = getAccountByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Hesap bulunamadı"));
+        return account.getBalance();
 	}
+	
+	private void logTransaction(Account account, Double amount, TransactionType type) {
+        Transaction transaction = new Transaction();
+        transaction.setAccount(account);
+        transaction.setAmount(amount);
+        transaction.setType(type);
+        transactionService.saveTransaction(transaction);
+    }
 }

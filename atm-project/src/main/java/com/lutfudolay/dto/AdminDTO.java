@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminDTO {
-    private Long id;
-    private String username;
-    private int userCount; // Bu admin'e bağlı kaç kullanıcı var
+   
+	private Long id;
+    
+	private String username;
+    
+	private int userCount; // Bu admin'e bağlı kaç kullanıcı var
 }
