@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 public class AccountDTO {
 	
 	private Long id;
-    private Double balance;
-    private Long userId;
+    
+	private Double balance;
+    
+	private Long userId;
 }
