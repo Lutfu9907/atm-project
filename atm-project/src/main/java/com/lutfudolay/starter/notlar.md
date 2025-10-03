@@ -1,4 +1,4 @@
-// Yapılacaklar (Sırasıyla) //
+// Yapılacaklar
 
 Swagger/OpenAPI ile API dökümantasyonu.
 
